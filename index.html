@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battlemap Formatter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="app-header">
+        <h1>Battlemap Formatter</h1>
+        <p class="tagline">Tile battle maps into printable 1-inch grid A4 sheets. Everything runs locally — nothing is
+            uploaded.</p>
+    </header>
+
+    <main class="app-layout">
+        <aside class="controls" aria-label="Map controls">
+            <section class="panel">
+                <h2>1. Load Map</h2>
+                <div class="drop-zone" id="dropZone">
+                    <!-- The input covers the whole zone, so clicking or dropping a file onto it works natively -->
+                    <input type="file" id="mapInput" accept="image/*" aria-describedby="dropZoneHint">
+                    <div class="drop-zone-content">
+                        <span class="drop-zone-icon" aria-hidden="true">&#8682;</span>
+                        <span class="drop-zone-title">Drop an image here</span>
+                        <span class="drop-zone-hint" id="dropZoneHint">or click to browse (PNG, JPG, WebP)</span>
+                    </div>
+                </div>
+                <p class="file-info" id="fileInfo" aria-live="polite">No map loaded</p>
+            </section>
+
+            <section class="panel">
+                <h2>2. Calibration</h2>
+                <form id="settingsForm" class="settings" onsubmit="return false">
+                    <div class="field">
+                        <label for="pixelsPerSquare">Pixels per grid square</label>
+                        <div class="input-unit">
+                            <input type="number" id="pixelsPerSquare" name="pixelsPerSquare" value="50" min="1"
+                                step="0.1" required>
+                            <span class="unit">px</span>
+                        </div>
+                        <small>Width of one map square in the source image. Drag across a square on the preview to
+                            measure it.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="overlapMargin">Overlap / glue margin</label>
+                        <div class="input-unit">
+                            <input type="number" id="overlapMargin" name="overlapMargin" value="0.25" min="0"
+                                step="0.05" required>
+                            <span class="unit">in</span>
+                        </div>
+                        <small>Extra strip repeated on adjacent pages for gluing.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="pageMargin">Page margin</label>
+                        <div class="input-unit">
+                            <input type="number" id="pageMargin" name="pageMargin" value="0.25" min="0" step="0.05"
+                                required>
+                            <span class="unit">in</span>
+                        </div>
+                        <small>Unprintable border around each A4 sheet.</small>
+                    </div>
+                </form>
+            </section>
+        </aside>
+
+        <section class="preview" aria-label="Map preview">
+            <div class="preview-header">
+                <h2>Preview</h2>
+                <span class="preview-meta" id="previewMeta"></span>
+            </div>
+            <div class="canvas-container" id="canvasContainer">
+                <canvas id="mapCanvas"></canvas>
+                <p class="canvas-placeholder" id="canvasPlaceholder">Load a map to see the preview and page overlay.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
